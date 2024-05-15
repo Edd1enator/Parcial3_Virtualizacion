@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apiholamundo-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: apiholamundo
+  template:
+    metadata:
+      labels:
+        app: apiholamundo
+    spec:
+      containers:
+      - name: apiholamundo
+        image: apiholamundo:latest
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apiholamundo-service
+spec:
+  selector:
+    app: apiholamundo
+  ports:
+  - port: 80
+    targetPort: 3000
+    protocol: TCP
+  type: LoadBalancer
